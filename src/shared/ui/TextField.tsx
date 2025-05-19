@@ -1,13 +1,15 @@
 import React from "react";
 
 type TextFieldProps = {
-    value?: string;
+    value: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onBlur?: () => void;
     type?: 'text' | 'email' | 'password';
     label?: string;
     placeholder?: string;
     name?: string;
     required?: boolean;
-    error?: string;
+    errors?: string[];
 };
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -15,7 +17,7 @@ export const TextField: React.FC<TextFieldProps> = ({
                                                         name,
                                                         type = 'text',
                                                         required = false,
-                                                        error,
+                                                        errors,
                                                         ...props
                                                     }) => {
     return (
@@ -30,7 +32,11 @@ export const TextField: React.FC<TextFieldProps> = ({
                 className={'block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs ' +
                     'focus:ring-blue-500 focus:outline-blue-500'}
             />
-            {error && <p className={'text-sm font-medium text-red-600'}>{error}</p>}
+            {errors && errors.map((error, index) => (
+                <p key={index} className={'text-sm font-medium text-red-600'}>
+                    {error}
+                </p>
+            ))}
         </div>
     )
 }
