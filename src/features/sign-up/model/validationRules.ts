@@ -1,5 +1,3 @@
-export const EMAIL_REGEX = new RegExp(/^\S+@\S+\.\S+$/);
-
 export const PASSWORD_REGEX = {
     lowerCase: /[a-z]/,
     upperCase: /[A-Z]/,

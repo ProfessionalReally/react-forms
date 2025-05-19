@@ -5,24 +5,15 @@ import {PulseLoader} from "react-spinners";
 
 export const SignUpForm = () => {
     const {
-        getForm,
-        getErrors,
-        getLoading,
-        getButtonRef,
-        hasErrors,
-        onChange,
-        onBlur,
-        onSubmit
+        register,
+        errors,
+        isValid,
+        isSubmitting,
+        buttonRef,
+        handleSubmit,
     } = useSignUp();
 
-    const {email, password, confirmPassword} = getForm();
-    const loading = getLoading();
-    const errors = getErrors();
-    const buttonRef = getButtonRef();
-
-    const isDisabled = hasErrors();
-
-    if (loading) {
+    if (isSubmitting) {
         return (
             <div className={'flex justify-center'}>
                 <PulseLoader color='#3b82f6'/>
@@ -31,41 +22,35 @@ export const SignUpForm = () => {
     }
 
     return (
-        <form className={'flex flex-col justify-center items-stretch gap-4'} onSubmit={onSubmit}>
+        <form className={'flex flex-col justify-center items-stretch gap-4'} onSubmit={handleSubmit}>
             <TextField
                 label='Email'
                 type='email'
                 name='email'
-                value={email}
-                onChange={({target}) => onChange('email', target.value)}
-                onBlur={() => onBlur('email')}
                 placeholder='Enter Your Email'
+                register={register}
+                errors={errors.email?.types}
                 required
-                errors={errors?.email}
             />
             <TextField
                 label='Password'
                 type='password'
                 name='password'
-                value={password}
-                onChange={({target}) => onChange('password', target.value)}
-                onBlur={() => onBlur('password')}
                 placeholder='Enter Your Password'
+                register={register}
+                errors={errors.password?.types}
                 required
-                errors={errors?.password}
             />
             <TextField
                 label='Confirm Password'
                 type='password'
-                name='confirm-password'
-                value={confirmPassword}
-                onChange={({target}) => onChange('confirmPassword', target.value)}
-                onBlur={() => onBlur('confirmPassword')}
+                name='confirmPassword'
                 placeholder='Confirm Your Password'
+                register={register}
+                errors={errors.confirmPassword?.types}
                 required
-                errors={errors?.confirmPassword}
             />
-            <Button disabled={isDisabled} ref={buttonRef}>
+            <Button disabled={!isValid} ref={buttonRef}>
                 Sign Up
             </Button>
         </form>
